@@ -4,7 +4,6 @@
   "description": "reverse geocode country codes",
   "main": "service.js",
   "dependencies": {
-    "d3": "~3.4.8",
     "shapefile": "~0.3.0",
     "express": "^4.4.1",
     "underscore": "^1.6.0"

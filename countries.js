@@ -1,5 +1,5 @@
 var shapefile = require('shapefile');
-var d3 = require('d3');
+var util = require('./util');
 
 var reader = shapefile.reader('data/ne_10m_admin_0_countries.shp');
 
@@ -20,7 +20,7 @@ reader.readHeader(function (err, header) {
                 countries.push({
                     countryCode: record.properties.ISO_A2,
                     geometry: record.geometry,
-                    bounds: d3.geo.bounds(record)
+                    bounds: util.bounds(record)
                 });
             }
 

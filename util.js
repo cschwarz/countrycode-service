@@ -1,5 +1,25 @@
 var _ = require('underscore');
 
+var bounds = function(country) {
+    var minX = Infinity,
+        minY = Infinity,
+        maxX = -Infinity,
+        maxY = -Infinity;
+
+    for (var i = 0; i < country.geometry.coordinates.length; i++) {
+        var polygon = country.geometry.coordinates[i][0];
+
+        for (var j = 0; j < polygon.length; j++) {
+            minX = Math.min(minX, polygon[j][0]);
+            minY = Math.min(minY, polygon[j][1]);
+            maxX = Math.max(maxX, polygon[j][0]);
+            maxY = Math.max(maxY, polygon[j][1]);
+        }
+    }
+
+    return [[minX, minY], [maxX, maxY]];
+};
+
 var pointInPolygon = function(point, polygon) {
     var x = point[0],
         y = point[1],
@@ -48,6 +68,7 @@ var pointInCountry = function(point, country) {
 };
 
 module.exports = {
+    bounds: bounds,
     pointInPolygon: pointInPolygon,
     pointInCountry: pointInCountry
 };
