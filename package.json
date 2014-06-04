@@ -1,0 +1,22 @@
+{
+  "name": "countrycode-service",
+  "version": "0.0.1",
+  "description": "reverse geocode country codes",
+  "main": "service.js",
+  "dependencies": {
+    "d3": "~3.4.8",
+    "shapefile": "~0.3.0",
+    "express": "^4.4.1",
+    "underscore": "^1.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "geocode",
+    "osm"
+  ],
+  "author": "Christian Schwarz",
+  "license": "ISC"
+}
