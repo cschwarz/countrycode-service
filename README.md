@@ -57,5 +57,6 @@ Todo
 
 - [x] Use https://github.com/expressjs/compression for gzip compression
 - [x] Use https://github.com/mourner/rbush for bounding box look up
-- [ ] Switch to osm admin_level=2 boundaries instead of http://www.naturalearthdata.com/ for improved resolution
+- [ ] Switch to osm admin_level=2 boundaries instead of http://www.naturalearthdata.com/ for improved accuracy
 - [ ] Make use of node cluster
+- [ ] Improve query string validation
