@@ -32,12 +32,12 @@ GET /api/1/?lon=16&lat=48&geometry=1
 
 ```json
 {
-    countryCode: "AT",
-    geometry: {
-        type: "Polygon",
-        coordinates: []
+    "countryCode": "AT",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": []
     },
-    bounds: [
+    "bounds": [
         [
             9.52115482500011,
             46.378643087000086
