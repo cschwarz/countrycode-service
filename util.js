@@ -7,7 +7,7 @@ var bounds = function(country) {
         maxY = -Infinity;
 
     for (var i = 0; i < country.geometry.coordinates.length; i++) {
-        var polygon = country.geometry.coordinates[i][0];
+        var polygon = country.geometry.coordinates[i];
 
         for (var j = 0; j < polygon.length; j++) {
             minX = Math.min(minX, polygon[j][0]);
