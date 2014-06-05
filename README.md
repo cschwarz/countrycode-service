@@ -35,9 +35,7 @@ GET /api/1/?lon=16&lat=48&geometry=1
     countryCode: "AT",
     geometry: {
         type: "Polygon",
-        coordinates: [
-            ...
-        ]
+        coordinates: []
     },
     bounds: [
         [
