@@ -52,7 +52,7 @@ reader.readHeader(function (err, header) {
 });
 
 module.exports = {
-    lookup: function (lon, lat, callback) {
+    search: function (lon, lat, callback) {
         if (!initCallbacks) {
             callback(null, _.find(countries, function (country) { return util.pointInCountry([lon, lat], country); }));
         }

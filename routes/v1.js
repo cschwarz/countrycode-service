@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
     var lon = req.query.lon;
     var geometry = req.query.geometry || false;
 
-    countries.lookup(lon, lat, function (err, country) {
+    countries.search(lon, lat, function (err, country) {
         if (_.isUndefined(country))
             return res.json({ error: 'Could not reverse geocode country code for the requested location' });
 
