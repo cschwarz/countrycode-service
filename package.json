@@ -8,14 +8,24 @@
     "express": "^4.4.1",
     "underscore": "^1.6.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^1.9.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [
     "geocode",
     "osm"
   ],
   "author": "Christian Schwarz",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cschwarz/countrycode-service.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cschwarz/countrycode-service/issues"
+  },
+  "homepage": "https://github.com/cschwarz/countrycode-service"
 }

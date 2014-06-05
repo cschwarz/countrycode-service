@@ -18,15 +18,15 @@ app.get('/', function(req, res) {
     var lon = req.query.lon;
     var geometry = req.query.geometry || false;
 
-    var country = _.find(countries, function (country) { return util.pointInCountry([lon, lat], country); });
+    countries.lookup(lon, lat, function (err, country) {
+        if (_.isUndefined(country))
+            return res.json({ error: 'Could not reverse geocode country code for the requested location' });
 
-    if (_.isUndefined(country))
-        return res.json({ error: 'Could not reverse geocode country code for the requested location' });
-
-    if (geometry)
-        res.json(country);
-    else
-        res.json({ countryCode: country.countryCode });
+        if (geometry)
+            res.json(country);
+        else
+            res.json({ countryCode: country.countryCode });
+    });
 });
 
 app.listen(port);
