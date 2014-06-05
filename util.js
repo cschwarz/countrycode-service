@@ -1,20 +1,18 @@
 var _ = require('underscore');
 
-var bounds = function(country) {
+var bounds = function(polygon) {
     var minX = Infinity,
         minY = Infinity,
         maxX = -Infinity,
         maxY = -Infinity;
 
-    for (var i = 0; i < country.geometry.coordinates.length; i++) {
-        var polygon = country.geometry.coordinates[i];
+    var exteriorRing = polygon.coordinates[0];
 
-        for (var j = 0; j < polygon.length; j++) {
-            minX = Math.min(minX, polygon[j][0]);
-            minY = Math.min(minY, polygon[j][1]);
-            maxX = Math.max(maxX, polygon[j][0]);
-            maxY = Math.max(maxY, polygon[j][1]);
-        }
+    for (var i = 0; i < exteriorRing.length; i++) {
+        minX = Math.min(minX, exteriorRing[i][0]);
+        minY = Math.min(minY, exteriorRing[i][1]);
+        maxX = Math.max(maxX, exteriorRing[i][0]);
+        maxY = Math.max(maxY, exteriorRing[i][1]);
     }
 
     return [[minX, minY], [maxX, maxY]];

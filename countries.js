@@ -1,12 +1,24 @@
 var shapefile = require('shapefile');
 var _ = require('underscore');
+var rbush = require('rbush');
 
 var util = require('./util');
 
 var reader = shapefile.reader('data/ne_10m_admin_0_countries.shp');
 
+var countryTree = rbush();
 var countries = [];
 var initCallbacks = [];
+
+function addCountry(record, geometry) {
+    var bounds = util.bounds(geometry);
+
+    countries.push([bounds[0][0], bounds[0][1], bounds[1][0], bounds[1][1], {
+        countryCode: record.properties.ISO_A2,
+        geometry: geometry,
+        bounds: bounds
+    }]);
+}
 
 reader.readHeader(function (err, header) {
     if (err)
@@ -17,6 +29,8 @@ reader.readHeader(function (err, header) {
             if (err)
                 throw err;
             else if (record === shapefile.end) {
+                countryTree.load(countries);
+                countries = [];
                 _.each(initCallbacks, function (initCallback) { initCallback(); });
                 initCallbacks = null;
                 return;
@@ -25,23 +39,14 @@ reader.readHeader(function (err, header) {
             if (record && record.properties && record.properties.ISO_A2 && record.properties.ISO_A2 !== '-99') {
                 if (record.geometry.type === 'MultiPolygon') {
                     for (var i = 0; i < record.geometry.coordinates.length; i++) {
-                        var geometry = {
+                        addCountry(record, {
                             type: 'Polygon',
                             coordinates: record.geometry.coordinates[i]
-                        };
-                        countries.push({
-                            countryCode: record.properties.ISO_A2,
-                            geometry: geometry,
-                            bounds: util.bounds({ geometry: geometry })
                         });
                     }
                 }
                 else {
-                    countries.push({
-                        countryCode: record.properties.ISO_A2,
-                        geometry: record.geometry,
-                        bounds: util.bounds(record)
-                    });
+                    addCountry(record, record.geometry);
                 }
             }
 
@@ -55,11 +60,21 @@ reader.readHeader(function (err, header) {
 module.exports = {
     search: function (lon, lat, callback) {
         if (!initCallbacks) {
-            callback(null, _.find(countries, function (country) { return util.pointInCountry([lon, lat], country); }));
+            var country = _.find(countryTree.search([lon, lat, lon, lat]), function (country) { return util.pointInCountry([lon, lat], country[4]); });
+
+            if (country)
+                callback(null, country[4]);
+            else
+                callback(null);
         }
         else {
             initCallbacks.push(function () {
-                callback(null, _.find(countries, function (country) { return util.pointInCountry([lon, lat], country); }));
+                var country = _.find(countryTree.search([lon, lat, lon, lat]), function (country) { return util.pointInCountry([lon, lat], country[4]); });
+
+                if (country)
+                    callback(null, country[4]);
+                else
+                    callback(null);
             });
         }
     }
