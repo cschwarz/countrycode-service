@@ -16,9 +16,10 @@ reader.readHeader(function (err, header) {
         function recordCallback (err, record) {
             if (err)
                 throw err;
-            else if (record ===  shapefile.end) {
+            else if (record === shapefile.end) {
                 _.each(initCallbacks, function (initCallback) { initCallback(); });
                 initCallbacks = null;
+                return;
             }
 
             if (record && record.properties && record.properties.ISO_A2 && record.properties.ISO_A2 !== '-99') {
