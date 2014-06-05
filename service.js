@@ -1,7 +1,10 @@
 var express = require('express');
+var compress = require('compression');
 
 var app = express();
 var port = process.env.PORT || 3000;
+
+app.use(compress());
 
 app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
