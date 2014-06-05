@@ -10,12 +10,12 @@ var initCallbacks = [];
 
 reader.readHeader(function (err, header) {
     if (err)
-        return console.error(err);
+        throw err;
 
     reader.readRecord(function (err, record) {
         function recordCallback (err, record) {
             if (err)
-                return console.error(err);
+                throw err;
             else if (record ===  shapefile.end) {
                 _.each(initCallbacks, function (initCallback) { initCallback(); });
                 initCallbacks = null;
@@ -57,10 +57,7 @@ module.exports = {
             callback(null, _.find(countries, function (country) { return util.pointInCountry([lon, lat], country); }));
         }
         else {
-            initCallbacks.push(function (err) {
-                if (err)
-                    return callback(err);
-
+            initCallbacks.push(function () {
                 callback(null, _.find(countries, function (country) { return util.pointInCountry([lon, lat], country); }));
             });
         }
